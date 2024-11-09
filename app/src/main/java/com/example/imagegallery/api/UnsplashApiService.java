@@ -1,6 +1,7 @@
 package com.example.imagegallery.api;
 
-import android.media.Image;
+
+import com.example.imagegallery.model.Image;
 
 import java.util.List;
 

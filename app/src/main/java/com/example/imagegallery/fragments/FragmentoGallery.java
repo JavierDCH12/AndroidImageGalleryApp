@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.imagegallery.BuildConfig;
 import com.example.imagegallery.api.UnsplashApiClient;
 import com.example.imagegallery.api.UnsplashApiService;
 import com.example.imagegallery.adapters.GalleryAdapter;

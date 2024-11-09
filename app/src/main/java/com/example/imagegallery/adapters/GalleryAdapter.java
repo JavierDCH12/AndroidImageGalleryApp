@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.imagegallery.FavoritesManager;
 import com.example.imagegallery.databinding.ItemGalleryBinding;
 import com.example.imagegallery.model.Image;
 
@@ -15,9 +16,11 @@ import java.util.List;
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesViewHolder> {
 
     private final List<Image> images;
+    private boolean isFavorite;
 
-    public GalleryAdapter(List<Image> images) {
+    public GalleryAdapter(List<Image> images, boolean isFavorite) {
         this.images = images;
+        this.isFavorite = isFavorite;
     }
 
     @NonNull
@@ -31,13 +34,18 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
     @Override
     public void onBindViewHolder(@NonNull GalleryAdapter.ImagesViewHolder holder, int position) {
         Image image = images.get(position);
-        // Asigna el nombre del autor y la descripción
+
         holder.binding.textViewAuthor.setText(image.getUser().getName());
 
-        // Cargar la imagen usando Glide
         Glide.with(holder.itemView.getContext())
                 .load(image.getUrls().getRegular())
                 .into(holder.binding.imageViewThumbnail);
+
+        if (!isFavorite && FavoritesManager.getInstance().getFavorites().contains(image)) {
+            holder.binding.imageViewThumbnail.setAlpha(0.5f);
+        } else {
+            holder.binding.imageViewThumbnail.setAlpha(1.0f);
+        }
     }
 
     @Override

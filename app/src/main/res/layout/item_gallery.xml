@@ -4,26 +4,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
 
+    <!-- Texto del autor, arriba de la imagen -->
+    <TextView
+        android:id="@+id/textViewAuthor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Imagen principal -->
     <ImageView
         android:id="@+id/imageViewThumbnail"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAuthor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/textViewAuthor"
-        android:layout_width="386dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewThumbnail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

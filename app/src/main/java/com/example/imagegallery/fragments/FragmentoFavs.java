@@ -50,7 +50,7 @@ public class FragmentoFavs extends Fragment {
         binding = FragmentFragmentoFavsBinding.inflate(inflater, container, false);
 
         favoriteImages = FavoritesManager.getInstance().getFavorites();
-        galleryAdapter = new GalleryAdapter(favoriteImages);
+        galleryAdapter = new GalleryAdapter(favoriteImages, true);
         binding.recycFavs.setAdapter(galleryAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         binding.recycFavs.setLayoutManager(gridLayoutManager);

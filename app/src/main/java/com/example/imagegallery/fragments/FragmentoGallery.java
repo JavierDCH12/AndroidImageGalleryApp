@@ -59,7 +59,7 @@ public class FragmentoGallery extends Fragment {
         binding = FragmentFragmentoGalleryBinding.inflate(inflater, container, false);
 
         //FORMAT AND ADAPTER OF THE RECYCLERVIEW
-        galleryAdapter = new GalleryAdapter(images);
+        galleryAdapter = new GalleryAdapter(images, false);
         binding.recycGallery.setAdapter(galleryAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);

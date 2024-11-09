@@ -1,4 +1,4 @@
-package com.example.imagegallery;
+package com.example.imagegallery.api;
 
 import android.media.Image;
 

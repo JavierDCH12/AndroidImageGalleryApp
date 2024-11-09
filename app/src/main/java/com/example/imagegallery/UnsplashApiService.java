@@ -13,8 +13,8 @@ public interface UnsplashApiService {
     @GET("photos")
     Call<List<Image>> getPhotos(
             @Query("client_id") String clientId,
-        @Query("per_page") int perPage,
-        @Query("page") int page
+            @Query("per_page") int perPage,
+            @Query("page") int page
 
     );
 

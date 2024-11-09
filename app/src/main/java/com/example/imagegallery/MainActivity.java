@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //TOOLBAR
+
+        setSupportActionBar(binding.toolbar);
+
 
 
         //BOTTOM MENU
@@ -39,13 +43,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() ==R.id.fragmentoGallery){
+                    binding.toolbar.setTitle(getString(R.string.toolbar_gallery));
                     navController.navigate(R.id.fragmentoGallery);
 
                     
                 }else if(item.getItemId() ==R.id.fragmentoFavs){
+                    binding.toolbar.setTitle(getString(R.string.toolbar_favorites));
                     navController.navigate(R.id.fragmentoFavs);
 
                 }else if(item.getItemId() ==R.id.fragmentoCategories){
+                    binding.toolbar.setTitle(getString(R.string.toolbar_categories));
+
                     navController.navigate(R.id.fragmentoCategories);
 
 

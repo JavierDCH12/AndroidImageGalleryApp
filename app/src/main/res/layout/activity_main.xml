@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!-- Toolbar en la parte superior -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbar_background"
+        android:title="@string/toolbar_gallery"
+        android:titleTextColor="@color/toolbar_title_color"
+        />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/navHost"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -17,6 +27,7 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigationgraph" />
 
+    <!-- Menú inferior -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"

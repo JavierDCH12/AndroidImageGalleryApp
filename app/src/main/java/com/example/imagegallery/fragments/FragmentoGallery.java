@@ -77,7 +77,7 @@ public class FragmentoGallery extends Fragment {
         UnsplashApiService apiService = UnsplashApiClient.getApiService();
         String clientId = BuildConfig.UNSPLASH_ACCESS_KEY;
 
-        Call<List<Image>> call = apiService.getPhotos(clientId, 1, 20);
+        Call<List<Image>> call = apiService.getPhotos(clientId, 20, 20);
 
         call.enqueue(new Callback<List<Image>>() {
             @Override

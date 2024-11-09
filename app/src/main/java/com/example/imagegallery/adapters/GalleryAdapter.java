@@ -33,7 +33,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
         Image image = images.get(position);
         // Asigna el nombre del autor y la descripción
         holder.binding.textViewAuthor.setText(image.getUser().getName());
-        holder.binding.textViewDescription.setText(image.getDescription());
 
         // Cargar la imagen usando Glide
         Glide.with(holder.itemView.getContext())

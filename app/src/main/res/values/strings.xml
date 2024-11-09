@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">ImageGallery</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toolbar_gallery">Gallery</string>
+    <string name="toolbar_favorites">Favorites</string>
+    <string name="toolbar_categories">Categories</string>
+
+
 </resources>

@@ -5,6 +5,7 @@
     <item android:title="Gallery"
         android:id="@+id/fragmentoGallery"
         app:showAsAction="always"
+        android:icon="@drawable/gallery_icon"
 
         />
     <item android:title="Favorites"

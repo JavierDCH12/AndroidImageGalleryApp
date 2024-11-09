@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,9 @@ public class FragmentoGallery extends Fragment {
     FragmentFragmentoGalleryBinding binding;
     private GalleryAdapter galleryAdapter;
     private List<Image> images = new ArrayList<>();
+
+    private int currentPage=20;
+    private final int itemsPerPage = 30;
 
 
     public FragmentoGallery() {
@@ -68,6 +73,25 @@ public class FragmentoGallery extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         fetchImages();
+
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback() {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                if(direction == ItemTouchHelper.RIGHT){
+
+                }
+
+            }
+        }).attachToRecyclerView(binding.recycGallery);
+
+
     }
 
 
@@ -77,7 +101,7 @@ public class FragmentoGallery extends Fragment {
         UnsplashApiService apiService = UnsplashApiClient.getApiService();
         String clientId = BuildConfig.UNSPLASH_ACCESS_KEY;
 
-        Call<List<Image>> call = apiService.getPhotos(clientId, 20, 20);
+        Call<List<Image>> call = apiService.getPhotos(clientId, currentPage, itemsPerPage);
 
         call.enqueue(new Callback<List<Image>>() {
             @Override
@@ -87,6 +111,7 @@ public class FragmentoGallery extends Fragment {
                     images.clear();
                     images.addAll(response.body());
                     galleryAdapter.notifyDataSetChanged();
+                    currentPage++;
                 } else {
                     Toast.makeText(getContext(), "API error in GET", Toast.LENGTH_SHORT).show();
                 }

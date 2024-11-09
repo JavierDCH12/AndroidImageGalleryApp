@@ -12,8 +12,10 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "UNSPLASH_ACCESS_KEY", "\"${properties["UNSPLASH_ACCESS_KEY"]}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildFeatures.buildConfig = true
     }
 
     buildTypes {

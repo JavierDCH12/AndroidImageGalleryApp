@@ -1,13 +1,14 @@
 package com.example.imagegallery.adapters;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.imagegallery.databinding.ItemGalleryBinding;
+import com.example.imagegallery.model.Image;
 
 import java.util.List;
 
@@ -30,11 +31,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
     @Override
     public void onBindViewHolder(@NonNull GalleryAdapter.ImagesViewHolder holder, int position) {
         Image image = images.get(position);
-        //holder.binding.textViewAuthor.setText(image.getAuthorName());
-        //holder.binding.textViewDescription.setText(image.getDescription());
+        // Asigna el nombre del autor y la descripción
+        holder.binding.textViewAuthor.setText(image.getUser().getName());
+        holder.binding.textViewDescription.setText(image.getDescription());
 
-
-
+        // Cargar la imagen usando Glide
+        Glide.with(holder.itemView.getContext())
+                .load(image.getUrls().getRegular())
+                .into(holder.binding.imageViewThumbnail);
     }
 
     @Override
@@ -42,16 +46,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
         return images.size();
     }
 
-
-    static class ImagesViewHolder extends RecyclerView.ViewHolder{
+    static class ImagesViewHolder extends RecyclerView.ViewHolder {
         ItemGalleryBinding binding;
 
         public ImagesViewHolder(@NonNull ItemGalleryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
-
-
     }
 }

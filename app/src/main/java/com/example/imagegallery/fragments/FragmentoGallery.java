@@ -19,6 +19,7 @@ import com.example.imagegallery.adapters.GalleryAdapter;
 import com.example.imagegallery.databinding.FragmentFragmentoGalleryBinding;
 import com.example.imagegallery.model.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,7 +31,7 @@ public class FragmentoGallery extends Fragment {
 
     FragmentFragmentoGalleryBinding binding;
     private GalleryAdapter galleryAdapter;
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
 
     public FragmentoGallery() {
@@ -52,7 +53,9 @@ public class FragmentoGallery extends Fragment {
         binding = FragmentFragmentoGalleryBinding.inflate(inflater, container, false);
 
         //FORMAT AND ADAPTER OF THE RECYCLERVIEW
+        galleryAdapter = new GalleryAdapter(images);
         binding.recycGallery.setAdapter(galleryAdapter);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         binding.recycGallery.setLayoutManager(gridLayoutManager);
 
@@ -69,18 +72,17 @@ public class FragmentoGallery extends Fragment {
 
 
     private void fetchImages() {
-        // Obtén la instancia de UnsplashApiService
-        UnsplashApiService apiService = UnsplashApiClient.getApiService();
+        binding.progressBar.setVisibility(View.VISIBLE);
 
-        // Obtén la clave de acceso de Unsplash desde BuildConfig
+        UnsplashApiService apiService = UnsplashApiClient.getApiService();
         String clientId = BuildConfig.UNSPLASH_ACCESS_KEY;
 
-        // Realiza la llamada a la API para obtener la lista de imágenes
         Call<List<Image>> call = apiService.getPhotos(clientId, 1, 20);
 
         call.enqueue(new Callback<List<Image>>() {
             @Override
             public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
+                binding.progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     images.clear();
                     images.addAll(response.body());
@@ -94,6 +96,7 @@ public class FragmentoGallery extends Fragment {
 
             @Override
             public void onFailure(Call<List<Image>> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "API failure in calling", Toast.LENGTH_SHORT).show();
             }
         });

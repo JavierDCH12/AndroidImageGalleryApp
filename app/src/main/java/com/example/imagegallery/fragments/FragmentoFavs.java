@@ -1,4 +1,4 @@
-package com.example.imagegallery;
+package com.example.imagegallery.fragments;
 
 import android.os.Bundle;
 
@@ -10,14 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.imagegallery.databinding.FragmentFragmentoLauncherBinding;
+import com.example.imagegallery.databinding.FragmentFragmentoFavsBinding;
 
 
-public class FragmentoLauncher extends Fragment {
-    FragmentFragmentoLauncherBinding binding;
-    public FragmentoLauncher() {
+public class FragmentoFavs extends Fragment {
+
+    FragmentFragmentoFavsBinding binding;
+
+
+    public FragmentoFavs() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -30,12 +34,9 @@ public class FragmentoLauncher extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentFragmentoLauncherBinding.inflate(inflater, container, false);
+        binding = FragmentFragmentoFavsBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
-
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Gallery"
-        android:id="@+id/fragmentoLauncher"
+        android:id="@+id/fragmentoGallery"
         app:showAsAction="always"
 
         />
-    <item android:title="Favs"
+    <item android:title="Favorites"
         android:id="@+id/fragmentoFavs"
         app:showAsAction="always"
 
@@ -15,11 +15,8 @@
 
         />
     <item android:title="Categories"
-        android:id="@+id/fragmentoLauncher"
         app:showAsAction="always"
-
-
-
+        android:id="@+id/fragmentoCategories"
 
         />
 </menu>

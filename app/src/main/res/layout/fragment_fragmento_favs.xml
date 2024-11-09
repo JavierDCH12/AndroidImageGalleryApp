@@ -4,4 +4,4 @@
     android:id="@+id/fragmentoFavs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentoFavs"/>
+    tools:context=".fragments.FragmentoFavs"/>

@@ -38,10 +38,20 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() ==){
+                if(item.getItemId() ==R.id.fragmentoGallery){
+                    navController.navigate(R.id.fragmentoGallery);
 
                     
+                }else if(item.getItemId() ==R.id.fragmentoFavs){
+                    navController.navigate(R.id.fragmentoFavs);
+
+                }else if(item.getItemId() ==R.id.fragmentoCategories){
+                    navController.navigate(R.id.fragmentoCategories);
+
+
                 }
+
+                return true;
             }
         });
 

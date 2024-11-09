@@ -4,4 +4,10 @@
     android:id="@+id/fragmentoFavs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FragmentoFavs"/>
+    tools:context=".fragments.FragmentoFavs">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycFavs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

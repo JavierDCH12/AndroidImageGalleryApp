@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.imagegallery.BuildConfig;
+import com.example.imagegallery.FavoritesManager;
 import com.example.imagegallery.api.UnsplashApiClient;
 import com.example.imagegallery.api.UnsplashApiService;
 import com.example.imagegallery.adapters.GalleryAdapter;
@@ -75,7 +76,7 @@ public class FragmentoGallery extends Fragment {
         fetchImages();
 
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -83,10 +84,19 @@ public class FragmentoGallery extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+
 
                 if(direction == ItemTouchHelper.RIGHT){
+                    Image imageSwiped = images.get(position);
+                    FavoritesManager.getInstance().addFavorites(imageSwiped);
+                    Toast.makeText(getContext(), "Image added to favorites", Toast.LENGTH_LONG);
+
 
                 }
+
+                galleryAdapter.notifyItemChanged(position);
 
             }
         }).attachToRecyclerView(binding.recycGallery);

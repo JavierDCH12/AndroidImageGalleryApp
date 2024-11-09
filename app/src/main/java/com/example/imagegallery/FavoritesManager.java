@@ -3,6 +3,7 @@ package com.example.imagegallery;
 import com.example.imagegallery.model.Image;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavoritesManager {
 
@@ -31,6 +32,10 @@ public class FavoritesManager {
 
     public void removeFavorites(Image image){
         fav_images_list.remove(image);
+    }
+
+    public List<Image> getFavorites(){
+        return new ArrayList<>(fav_images_list);
     }
 
 

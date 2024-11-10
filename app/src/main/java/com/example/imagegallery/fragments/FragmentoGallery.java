@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.example.imagegallery.api.UnsplashApiService;
 import com.example.imagegallery.adapters.GalleryAdapter;
 import com.example.imagegallery.databinding.FragmentFragmentoGalleryBinding;
 import com.example.imagegallery.model.Image;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,21 +44,12 @@ public class FragmentoGallery extends Fragment {
     private GalleryAdapter galleryAdapter;
     private List<Image> images = new ArrayList<>();
 
-    private int currentPage=20;
-    private final int itemsPerPage = 40;
-
+    private int currentPage = 5;
+    private final int itemsPerPage = 5;
+    private boolean isLoading = false;
 
     public FragmentoGallery() {
         // Required empty public constructor
-    }
-
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -64,7 +57,6 @@ public class FragmentoGallery extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentFragmentoGalleryBinding.inflate(inflater, container, false);
 
-        //FORMAT AND ADAPTER OF THE RECYCLERVIEW
         galleryAdapter = new GalleryAdapter(images, false);
         binding.recycGallery.setAdapter(galleryAdapter);
 
@@ -74,14 +66,36 @@ public class FragmentoGallery extends Fragment {
         return binding.getRoot();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Snackbar.make(binding.getRoot(), getString(R.string.swipe_add), Snackbar.LENGTH_LONG).show();
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        binding.recycGallery.setLayoutManager(gridLayoutManager);
+
+        // Configuración del Scroll Listener para cargar más imágenes
+        binding.recycGallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0 && !isLoading) {
+                    int visibleItemCount = gridLayoutManager.getChildCount();
+                    int totalItemCount = gridLayoutManager.getItemCount();
+                    int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
+                        fetchImages();
+                    }
+                }
+            }
+        });//ADDONSCROLLLISTENER END
+
         fetchImages();
 
-
+        // Configuración del Swipe para añadir a favoritos
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -92,32 +106,27 @@ public class FragmentoGallery extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
 
-
-
-                if(direction == ItemTouchHelper.RIGHT){
+                if (direction == ItemTouchHelper.RIGHT) {
                     Image imageSwiped = images.get(position);
                     FavoritesManager.getInstance().addFavorites(imageSwiped);
-                    Toast.makeText(getContext(), "Image added to favorites", Toast.LENGTH_LONG);
-
-
+                    Toast.makeText(getContext(), getString(R.string.added_favs), Toast.LENGTH_LONG).show();
                 }
 
                 galleryAdapter.notifyItemChanged(position);
-
-            }//ONSWIPED END
+            }
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     Paint paint = new Paint();
                     Bitmap icon;
 
-
-                    if(dX>0){// SWIPE RIGHT: GREEN COLOR AND BIN ICON TO ADD
+                    if (dX > 0) { // SWIPE RIGHT: GREEN COLOR, ADD FAVORITES
                         paint.setColor(Color.parseColor("#4CAF50"));
-                        icon= BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.add_icon);
+                        icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.add_icon);
+
                         View itemView = viewHolder.itemView;
                         float height = (float) itemView.getBottom() - (float) itemView.getTop();
                         float iconMargin = (height - icon.getHeight()) / 2;
@@ -129,22 +138,18 @@ public class FragmentoGallery extends Fragment {
                         if (icon != null) {
                             c.drawBitmap(icon, iconLeft, iconTop, paint);
                         }
-
-
                     }
-
                 }
-
-            }//ONCHILDRAW END
-
-
-        }).attachToRecyclerView(binding.recycGallery); //ONSWIPED END
+            }
+        }).attachToRecyclerView(binding.recycGallery);//ITEM TOUCH HELPER END
 
 
-    }//ONVIEWCREATED END
-
+    }//ON VIEW CREATED END
 
     private void fetchImages() {
+        if (isLoading) return;
+        isLoading = true;
+
         binding.progressBar.setVisibility(View.VISIBLE);
 
         UnsplashApiService apiService = UnsplashApiClient.getApiService();
@@ -156,8 +161,9 @@ public class FragmentoGallery extends Fragment {
             @Override
             public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
                 binding.progressBar.setVisibility(View.GONE);
+                isLoading = false;
+
                 if (response.isSuccessful() && response.body() != null) {
-                    images.clear();
                     images.addAll(response.body());
                     galleryAdapter.notifyDataSetChanged();
                     currentPage++;
@@ -166,15 +172,12 @@ public class FragmentoGallery extends Fragment {
                 }
             }
 
-
-
             @Override
             public void onFailure(Call<List<Image>> call, Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
+                isLoading = false;
                 Toast.makeText(getContext(), "API failure in calling", Toast.LENGTH_SHORT).show();
             }
         });
     }//FETCH END
-
-
-}//FRAGMENT END
+}

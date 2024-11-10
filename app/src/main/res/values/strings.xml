@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">ImageGallery</string>
+    <string name="app_name">Image Gallery</string>
     <string name="toolbar_gallery">Gallery</string>
     <string name="toolbar_favorites">Favorites</string>
     <string name="toolbar_categories">Categories</string>
+    <string name="swipe_remove">Desliza a la izquierda para eliminar de favoritos</string>
+    <string name="swipe_add">Desliza a la derecha para añadir a favoritos</string>
+    <string name="added_favs">Image added to favorites</string>
+
+
+
+
 
 
 </resources>

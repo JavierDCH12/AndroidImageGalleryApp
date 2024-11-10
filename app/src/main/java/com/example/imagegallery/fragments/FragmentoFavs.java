@@ -24,6 +24,7 @@ import com.example.imagegallery.R;
 import com.example.imagegallery.adapters.GalleryAdapter;
 import com.example.imagegallery.databinding.FragmentFragmentoFavsBinding;
 import com.example.imagegallery.model.Image;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -80,6 +81,10 @@ public class FragmentoFavs extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        Snackbar.make(binding.getRoot(), getString(R.string.swipe_remove), Snackbar.LENGTH_LONG).show();
+
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -94,17 +99,25 @@ public class FragmentoFavs extends Fragment {
                     if (position >= 0 && position < favoriteImages.size()) {
                         Image imageSwiped = favoriteImages.get(position);
 
-                        FavoritesManager.getInstance().removeFavorites(imageSwiped);
-                        favoriteImages.remove(position);
+                        viewHolder.itemView.animate()//ANIMATION FOR THE REMOVE SWAPE
+                                .alpha(0f)
+                                .setDuration(200)
+                                .withEndAction(() -> {
 
-                        Toast.makeText(getContext(), "Image removed from favorites", Toast.LENGTH_LONG).show();
+                                    //NORMAL VIEWHOLDER VIEW AFTER ANIMATION
+                                    FavoritesManager.getInstance().removeFavorites(imageSwiped);
+                                    favoriteImages.remove(position);
+                                    galleryAdapter.notifyItemRemoved(position);
+                                    Toast.makeText(getContext(), "Imagen eliminada de favoritos", Toast.LENGTH_LONG).show();
 
-                        galleryAdapter.notifyDataSetChanged();
+                                    if (favoriteImages.isEmpty()) {
+                                        binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
+                                        binding.recycFavs.setVisibility(View.GONE);
+                                    }
+                                }).start();
 
-                        if (favoriteImages.isEmpty()) {
-                            binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
-                            binding.recycFavs.setVisibility(View.GONE);
-                        }
+
+
                     }
                 }
             }

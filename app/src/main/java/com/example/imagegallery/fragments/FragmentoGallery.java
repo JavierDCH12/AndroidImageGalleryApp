@@ -1,5 +1,10 @@
 package com.example.imagegallery.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.imagegallery.BuildConfig;
 import com.example.imagegallery.FavoritesManager;
+import com.example.imagegallery.R;
 import com.example.imagegallery.api.UnsplashApiClient;
 import com.example.imagegallery.api.UnsplashApiService;
 import com.example.imagegallery.adapters.GalleryAdapter;
@@ -98,11 +104,44 @@ public class FragmentoGallery extends Fragment {
 
                 galleryAdapter.notifyItemChanged(position);
 
-            }
-        }).attachToRecyclerView(binding.recycGallery);
+            }//ONSWIPED END
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+                    Paint paint = new Paint();
+                    Bitmap icon;
 
 
-    }
+                    if(dX>0){// SWIPE RIGHT: GREEN COLOR AND BIN ICON TO ADD
+                        paint.setColor(Color.parseColor("#4CAF50"));
+                        icon= BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.add_icon);
+                        View itemView = viewHolder.itemView;
+                        float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                        float iconMargin = (height - icon.getHeight()) / 2;
+                        float iconTop = itemView.getTop() + iconMargin;
+                        float iconLeft = itemView.getLeft() + iconMargin;
+
+                        c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom(), paint);
+
+                        if (icon != null) {
+                            c.drawBitmap(icon, iconLeft, iconTop, paint);
+                        }
+
+
+                    }
+
+                }
+
+            }//ONCHILDRAW END
+
+
+        }).attachToRecyclerView(binding.recycGallery); //ONSWIPED END
+
+
+    }//ONVIEWCREATED END
 
 
     private void fetchImages() {
@@ -135,7 +174,7 @@ public class FragmentoGallery extends Fragment {
                 Toast.makeText(getContext(), "API failure in calling", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }//FETCH END
 
 
 }//FRAGMENT END

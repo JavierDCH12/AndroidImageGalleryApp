@@ -80,8 +80,6 @@ public class FragmentoFavs extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -99,9 +97,14 @@ public class FragmentoFavs extends Fragment {
                         FavoritesManager.getInstance().removeFavorites(imageSwiped);
                         favoriteImages.remove(position);
 
-                        Toast.makeText(getContext(), "Image removed from favorites", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Image removed from favorites", Toast.LENGTH_LONG).show();
 
                         galleryAdapter.notifyDataSetChanged();
+
+                        if (favoriteImages.isEmpty()) {
+                            binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
+                            binding.recycFavs.setVisibility(View.GONE);
+                        }
                     }
                 }
             }
@@ -110,18 +113,13 @@ public class FragmentoFavs extends Fragment {
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     Paint paint = new Paint();
-
-                    int iconResId;
                     Bitmap icon;
 
-                    if (dX < 0) {
+                    if (dX < 0) { // SWIPE LEFT: RED COLOR AND BIN ICON TO REMOVE
                         paint.setColor(Color.parseColor("#F44336"));
-                        iconResId = R.drawable.remove_icon;
-
-                        icon = BitmapFactory.decodeResource(recyclerView.getResources(), iconResId);
+                        icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.remove_icon);
 
                         View itemView = viewHolder.itemView;
                         float height = (float) itemView.getBottom() - (float) itemView.getTop();
@@ -131,27 +129,16 @@ public class FragmentoFavs extends Fragment {
 
                         c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom(), paint);
 
-                        c.drawBitmap(icon, iconLeft, iconTop, paint);
+                        if (icon != null) {
+                            c.drawBitmap(icon, iconLeft, iconTop, paint);
+                        }
                     }
-
-
-
-
                 }
-
-
-
             }
 
-
-
         }).attachToRecyclerView(binding.recycFavs);
-
-
-
-
-
     }
+
 
 
 

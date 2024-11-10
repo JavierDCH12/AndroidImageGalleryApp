@@ -10,4 +10,16 @@
         android:id="@+id/recycFavs"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textViewEmptyFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No hay favoritos aún"
+        android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+        />
 </FrameLayout>

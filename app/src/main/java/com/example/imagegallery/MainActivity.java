@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    }//ONCRATE END
+    }//ONCREATE END
 
 
 

@@ -1,6 +1,7 @@
 package com.example.imagegallery.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -43,8 +44,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
 
         if (!isFavorite && FavoritesManager.getInstance().getFavorites().contains(image)) {
             holder.binding.imageViewThumbnail.setAlpha(0.5f);
+            holder.binding.favoriteOverlayText.setVisibility(View.VISIBLE);
         } else {
             holder.binding.imageViewThumbnail.setAlpha(1.0f);
+            holder.binding.favoriteOverlayText.setVisibility(View.GONE);
+
         }
     }
 

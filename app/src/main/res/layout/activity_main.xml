@@ -13,8 +13,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/toolbar_background"
+        android:background="@drawable/toolbar_gradient"
         android:title="@string/toolbar_gallery"
+        android:layout_gravity="center"
         android:titleTextColor="@color/toolbar_title_color"
         />
 

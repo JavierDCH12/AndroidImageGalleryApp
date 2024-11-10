@@ -37,7 +37,7 @@ public class FragmentoGallery extends Fragment {
     private List<Image> images = new ArrayList<>();
 
     private int currentPage=20;
-    private final int itemsPerPage = 30;
+    private final int itemsPerPage = 40;
 
 
     public FragmentoGallery() {

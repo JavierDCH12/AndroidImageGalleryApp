@@ -43,12 +43,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() ==R.id.fragmentoGallery){
-                    binding.toolbar.setTitle(getString(R.string.toolbar_gallery));
+                    binding.toolbar.setTitle(getString(R.string.toolbar_gallery_title));
+                    binding.toolbar.setSubtitle(getString(R.string.toolbar_gallery_subtitle));
                     navController.navigate(R.id.fragmentoGallery);
 
                     
                 }else if(item.getItemId() ==R.id.fragmentoFavs){
-                    binding.toolbar.setTitle(getString(R.string.toolbar_favorites));
+                    binding.toolbar.setTitle(getString(R.string.toolbar_favorites_title));
+                    binding.toolbar.setSubtitle(getString(R.string.toolbar_favorites_subtitle));
+
                     navController.navigate(R.id.fragmentoFavs);
 
                 }else if(item.getItemId() ==R.id.fragmentoCategories){

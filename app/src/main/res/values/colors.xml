@@ -4,4 +4,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="toolbar_background">#2F2F2F</color>
     <color name="toolbar_title_color">#FFFFFF</color>
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+
+
+    <color name="bottom_bar_background">#FFFFFF</color>
+    <color name="bottom_bar_active">#4CAF50</color>
+    <color name="bottom_bar_inactive">#757575</color>
+
+
+
+
 </resources>

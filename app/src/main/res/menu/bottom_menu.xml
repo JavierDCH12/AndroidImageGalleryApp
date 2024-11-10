@@ -2,21 +2,23 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Gallery"
+    <item android:title="@string/toolbar_gallery_title"
         android:id="@+id/fragmentoGallery"
         app:showAsAction="always"
         android:icon="@drawable/gallery_icon"
+        app:itemIconTint="@color/bottom_bar_color"
 
         />
-    <item android:title="Favorites"
+    <item android:title="@string/toolbar_favorites_title"
         android:id="@+id/fragmentoFavs"
         app:showAsAction="always"
         android:icon="@drawable/favorite_icon"
+        app:itemIconTint="@color/bottom_bar_color_fav"
 
 
 
         />
-    <item android:title="Categories"
+    <item android:title="@string/toolbar_categories"
         app:showAsAction="always"
         android:id="@+id/fragmentoCategories"
 

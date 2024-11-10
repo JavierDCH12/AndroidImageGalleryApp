@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -75,7 +76,7 @@ public class FragmentoGallery extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         binding.recycGallery.setLayoutManager(gridLayoutManager);
 
-        // Configuración del Scroll Listener para cargar más imágenes
+        //SCROLL TO CONTINUE CALLING THE API
         binding.recycGallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -95,7 +96,6 @@ public class FragmentoGallery extends Fragment {
 
         fetchImages();
 
-        // Configuración del Swipe para añadir a favoritos
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -124,7 +124,7 @@ public class FragmentoGallery extends Fragment {
                     Bitmap icon;
 
                     if (dX > 0) { // SWIPE RIGHT: GREEN COLOR, ADD FAVORITES
-                        paint.setColor(Color.parseColor("#4CAF50"));
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.green));
                         icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.add_icon);
 
                         View itemView = viewHolder.itemView;

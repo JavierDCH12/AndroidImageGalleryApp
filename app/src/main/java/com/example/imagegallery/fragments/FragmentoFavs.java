@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -131,7 +132,7 @@ public class FragmentoFavs extends Fragment {
                     Bitmap icon;
 
                     if (dX < 0) { // SWIPE LEFT: RED COLOR AND BIN ICON TO REMOVE
-                        paint.setColor(Color.parseColor("#F44336"));
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.red));
                         icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.remove_icon);
 
                         View itemView = viewHolder.itemView;

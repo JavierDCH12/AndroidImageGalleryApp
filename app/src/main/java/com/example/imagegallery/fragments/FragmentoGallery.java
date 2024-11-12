@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.example.imagegallery.databinding.FragmentFragmentoGalleryBinding;
 import com.example.imagegallery.model.Image;
 import com.example.imagegallery.model.ImageViewModel;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,10 +173,17 @@ public class FragmentoGallery extends Fragment {
 
                 if (response.isSuccessful() && response.body() != null) {
                     images.addAll(response.body());
+
+
+                    //JSON LOG
+                    Gson gson = new Gson();
+                    String jsonResponse = gson.toJson(response.body());
+                    Log.i("API JSON Response", jsonResponse);
+
                     galleryAdapter.notifyDataSetChanged();
                     currentPage++;
                 } else {
-                    Toast.makeText(getContext(), "API error in GET", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "API error in response GET", Toast.LENGTH_SHORT).show();
                 }
             }
 

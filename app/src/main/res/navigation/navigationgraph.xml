@@ -24,5 +24,14 @@
         android:id="@+id/fragmentoGallery"
         android:name="com.example.imagegallery.fragments.FragmentoGallery"
         android:label="fragment_fragmento_gallery"
-        tools:layout="@layout/fragment_fragmento_gallery" />
+        tools:layout="@layout/fragment_fragmento_gallery" >
+        <action
+            android:id="@+id/action_fragmentoGallery_to_fragmentoDetail"
+            app:destination="@id/fragmentoDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentoDetail"
+        android:name="com.example.imagegallery.fragments.FragmentoDetail"
+        android:label="fragment_fragmento_detail"
+        tools:layout="@layout/fragment_fragmento_detail" />
 </navigation>

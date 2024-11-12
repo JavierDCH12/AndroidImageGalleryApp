@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -48,7 +50,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
                 .into(holder.binding.imageViewThumbnail);
 
         if (isGallery && imageViewModel.isFavorite(image) && imageViewModel!=null) {//Control the favorite overlay
-            Log.i("galeri", "fav");
             holder.binding.imageViewThumbnail.setAlpha(0.5f);
             holder.binding.favoriteOverlayText.setVisibility(View.VISIBLE);
         } else {
@@ -61,8 +62,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
 
             @Override
             public void onClick(View view) {
+                imageViewModel.selectImage(image);
+                NavController  navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_fragmentoGallery_to_fragmentoDetail);
 
-                //nabegacion al frgament odetalle
+
+
+
 
             }
         });

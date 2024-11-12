@@ -10,4 +10,6 @@
     <string name="swipe_remove">Desliza a la derecha para eliminar de favoritos</string>
     <string name="swipe_add">Desliza a la izquierda para añadir a favoritos</string>
     <string name="added_favs">Imagen añadida a favoritos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

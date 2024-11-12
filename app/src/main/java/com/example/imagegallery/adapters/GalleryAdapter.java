@@ -1,5 +1,6 @@
 package com.example.imagegallery.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,21 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.imagegallery.FavoritesManager;
 import com.example.imagegallery.R;
 import com.example.imagegallery.databinding.ItemGalleryBinding;
 import com.example.imagegallery.model.Image;
+import com.example.imagegallery.model.ImageViewModel;
 
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesViewHolder> {
 
     private final List<Image> images;
-    private boolean isFavorite;
+    private final ImageViewModel imageViewModel;
+    private final boolean isGallery;
 
-    public GalleryAdapter(List<Image> images, boolean isFavorite) {
+    public GalleryAdapter(List<Image> images, ImageViewModel imageViewModel, boolean isGallery) {
         this.images = images;
-        this.isFavorite = isFavorite;
+        this.imageViewModel = imageViewModel;
+        this.isGallery = isGallery;
     }
 
     @NonNull
@@ -37,21 +40,34 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
     public void onBindViewHolder(@NonNull GalleryAdapter.ImagesViewHolder holder, int position) {
         Image image = images.get(position);
 
+        //IMAGE ATRIBUTES SHOWN BY ITEM
         holder.binding.textViewAuthor.setText(image.getUser().getName());
         holder.binding.infoIcon.setImageResource(R.drawable.info_icon);
-
         Glide.with(holder.itemView.getContext())
                 .load(image.getUrls().getRegular())
                 .into(holder.binding.imageViewThumbnail);
 
-        if (!isFavorite && FavoritesManager.getInstance().getFavorites().contains(image)) {
+        if (isGallery && imageViewModel.isFavorite(image) && imageViewModel!=null) {//Control the favorite overlay
+            Log.i("galeri", "fav");
             holder.binding.imageViewThumbnail.setAlpha(0.5f);
             holder.binding.favoriteOverlayText.setVisibility(View.VISIBLE);
         } else {
             holder.binding.imageViewThumbnail.setAlpha(1.0f);
             holder.binding.favoriteOverlayText.setVisibility(View.GONE);
-
         }
+
+        //INFO CLICK
+        holder.binding.infoIcon.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //nabegacion al frgament odetalle
+
+            }
+        });
+
+
     }
 
     @Override

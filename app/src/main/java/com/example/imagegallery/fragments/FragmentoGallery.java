@@ -3,7 +3,6 @@ package com.example.imagegallery.fragments;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 
@@ -11,24 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.imagegallery.BuildConfig;
-import com.example.imagegallery.FavoritesManager;
 import com.example.imagegallery.R;
 import com.example.imagegallery.api.UnsplashApiClient;
 import com.example.imagegallery.api.UnsplashApiService;
 import com.example.imagegallery.adapters.GalleryAdapter;
 import com.example.imagegallery.databinding.FragmentFragmentoGalleryBinding;
 import com.example.imagegallery.model.Image;
+import com.example.imagegallery.model.ImageViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class FragmentoGallery extends Fragment {
     FragmentFragmentoGalleryBinding binding;
     private GalleryAdapter galleryAdapter;
     private List<Image> images = new ArrayList<>();
+    private ImageViewModel imageViewModel;
 
     private int currentPage = 5;
     private final int itemsPerPage = 5;
@@ -58,11 +58,7 @@ public class FragmentoGallery extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentFragmentoGalleryBinding.inflate(inflater, container, false);
 
-        galleryAdapter = new GalleryAdapter(images, false);
-        binding.recycGallery.setAdapter(galleryAdapter);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
-        binding.recycGallery.setLayoutManager(gridLayoutManager);
 
         return binding.getRoot();
     }
@@ -71,10 +67,17 @@ public class FragmentoGallery extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        imageViewModel = new ViewModelProvider(requireActivity()).get(ImageViewModel.class);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        binding.recycGallery.setLayoutManager(gridLayoutManager);
+        galleryAdapter = new GalleryAdapter(images, imageViewModel, true);
+        binding.recycGallery.setAdapter(galleryAdapter);
+
+
         //Swipe warning
         Snackbar.make(binding.getRoot(), getString(R.string.swipe_add), Snackbar.LENGTH_SHORT).show();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         binding.recycGallery.setLayoutManager(gridLayoutManager);
 
         //SCROLL TO CONTINUE CALLING THE API
@@ -109,7 +112,7 @@ public class FragmentoGallery extends Fragment {
 
                 if (direction == ItemTouchHelper.LEFT) {
                     Image imageSwiped = images.get(position);
-                    FavoritesManager.getInstance().addFavorites(imageSwiped);
+                    imageViewModel.addFavorite(imageSwiped);
                     Toast.makeText(getContext(), getString(R.string.added_favs), Toast.LENGTH_LONG).show();
                 }
 
@@ -146,6 +149,8 @@ public class FragmentoGallery extends Fragment {
 
 
     }//ON VIEW CREATED END
+
+
 
     private void fetchImages() {
         if (isLoading) return;

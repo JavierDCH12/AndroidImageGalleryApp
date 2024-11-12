@@ -3,7 +3,6 @@ package com.example.imagegallery.fragments;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 
@@ -11,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,34 +21,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.imagegallery.FavoritesManager;
 import com.example.imagegallery.R;
 import com.example.imagegallery.adapters.GalleryAdapter;
 import com.example.imagegallery.databinding.FragmentFragmentoFavsBinding;
 import com.example.imagegallery.model.Image;
+import com.example.imagegallery.model.ImageViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class FragmentoFavs extends Fragment {
 
-    FragmentFragmentoFavsBinding binding;
-    private RecyclerView recyclerView;
-    private List<Image> favoriteImages;
+    private FragmentFragmentoFavsBinding binding;
+    private ImageViewModel imageViewModel;
     private GalleryAdapter galleryAdapter;
-
+    private List<Image> favoriteImages = new ArrayList<>();
 
     public FragmentoFavs() {
-        // Required empty public constructor
-    }
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+        // Constructor vacío requerido
     }
 
     @Override
@@ -55,26 +48,6 @@ public class FragmentoFavs extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentFragmentoFavsBinding.inflate(inflater, container, false);
-
-        List<Image> list_favs = FavoritesManager.getInstance().getFavorites();
-
-        if (list_favs.isEmpty()){
-            binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
-            binding.recycFavs.setVisibility(View.GONE);
-
-        }else{
-            favoriteImages = FavoritesManager.getInstance().getFavorites();
-            galleryAdapter = new GalleryAdapter(favoriteImages, true);
-            binding.recycFavs.setAdapter(galleryAdapter);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
-            binding.recycFavs.setLayoutManager(gridLayoutManager);
-            binding.textViewEmptyFavorites.setVisibility(View.GONE);
-
-        }
-
-
-
-
         return binding.getRoot();
     }
 
@@ -82,10 +55,35 @@ public class FragmentoFavs extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Swipe warning
+        // GET VIEWMODEL
+        imageViewModel = new ViewModelProvider(requireActivity()).get(ImageViewModel.class);
+
+        galleryAdapter = new GalleryAdapter(favoriteImages, imageViewModel, false);
+        binding.recycFavs.setAdapter(galleryAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        binding.recycFavs.setLayoutManager(gridLayoutManager);
+
+        imageViewModel.getFavoriteImages().observe(getViewLifecycleOwner(), new Observer<List<Image>>() {
+            @Override
+            public void onChanged(List<Image> images) {
+                favoriteImages.clear();
+                if (images != null && !images.isEmpty()) {
+                    favoriteImages.addAll(images);
+                    galleryAdapter.notifyDataSetChanged();
+                    binding.textViewEmptyFavorites.setVisibility(View.GONE);
+                    binding.recycFavs.setVisibility(View.VISIBLE);
+                } else {
+                    binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
+                    binding.recycFavs.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
+
         Snackbar.make(binding.getRoot(), getString(R.string.swipe_remove), Snackbar.LENGTH_SHORT).show();
-
-
+        //SWIPE RIGHT TO ELIMINATE
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -100,25 +98,13 @@ public class FragmentoFavs extends Fragment {
                     if (position >= 0 && position < favoriteImages.size()) {
                         Image imageSwiped = favoriteImages.get(position);
 
-                        viewHolder.itemView.animate()//ANIMATION FOR THE REMOVE SWAPE
+                        viewHolder.itemView.animate()
                                 .alpha(0f)
                                 .setDuration(200)
                                 .withEndAction(() -> {
-
-                                    //NORMAL VIEWHOLDER VIEW AFTER ANIMATION
-                                    FavoritesManager.getInstance().removeFavorites(imageSwiped);
-                                    favoriteImages.remove(position);
-                                    galleryAdapter.notifyItemRemoved(position);
-                                    Toast.makeText(getContext(), "Imagen eliminada de favoritos", Toast.LENGTH_LONG).show();
-
-                                    if (favoriteImages.isEmpty()) {
-                                        binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
-                                        binding.recycFavs.setVisibility(View.GONE);
-                                    }
+                                    imageViewModel.removeFavorite(imageSwiped);
+                                    Toast.makeText(getContext(), getString(R.string.swipe_remove), Toast.LENGTH_LONG).show();
                                 }).start();
-
-
-
                     }
                 }
             }
@@ -131,9 +117,9 @@ public class FragmentoFavs extends Fragment {
                     Paint paint = new Paint();
                     Bitmap icon;
 
-                    if (dX > 0) { // SWIPE RIGHT: RED COLOR AND BIN ICON TO REMOVE
+                    if (dX > 0) {
                         paint.setColor(ContextCompat.getColor(getContext(), R.color.red));
-                        icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.remove_icon);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.remove_icon);
 
                         View itemView = viewHolder.itemView;
                         float height = (float) itemView.getBottom() - (float) itemView.getTop();
@@ -141,7 +127,8 @@ public class FragmentoFavs extends Fragment {
                         float iconTop = itemView.getTop() + iconMargin;
                         float iconLeft = itemView.getLeft() + iconMargin;
 
-                        c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom(), paint);
+                        c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                                (float) itemView.getBottom(), paint);
 
                         if (icon != null) {
                             c.drawBitmap(icon, iconLeft, iconTop, paint);
@@ -149,12 +136,6 @@ public class FragmentoFavs extends Fragment {
                     }
                 }
             }
-
         }).attachToRecyclerView(binding.recycFavs);
     }
-
-
-
-
-
-}//FRAGMENT END
+}

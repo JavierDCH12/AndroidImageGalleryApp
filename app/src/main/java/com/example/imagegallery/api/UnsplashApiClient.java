@@ -1,10 +1,13 @@
 package com.example.imagegallery.api;
 
+import com.example.imagegallery.BuildConfig;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UnsplashApiClient {
-    private static final String BASE_URL = "https://api.unsplash.com/";
+    private static final String BASE_URL = BuildConfig.BASE_URL;
+
     private static UnsplashApiService apiService;
 
     public static UnsplashApiService getApiService() {

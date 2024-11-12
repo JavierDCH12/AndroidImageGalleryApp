@@ -82,11 +82,11 @@ public class FragmentoFavs extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Swipe warning
+        Snackbar.make(binding.getRoot(), getString(R.string.swipe_remove), Snackbar.LENGTH_SHORT).show();
 
-        Snackbar.make(binding.getRoot(), getString(R.string.swipe_remove), Snackbar.LENGTH_LONG).show();
 
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -96,7 +96,7 @@ public class FragmentoFavs extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
 
-                if (direction == ItemTouchHelper.LEFT) {
+                if (direction == ItemTouchHelper.RIGHT) {
                     if (position >= 0 && position < favoriteImages.size()) {
                         Image imageSwiped = favoriteImages.get(position);
 
@@ -131,7 +131,7 @@ public class FragmentoFavs extends Fragment {
                     Paint paint = new Paint();
                     Bitmap icon;
 
-                    if (dX < 0) { // SWIPE LEFT: RED COLOR AND BIN ICON TO REMOVE
+                    if (dX > 0) { // SWIPE RIGHT: RED COLOR AND BIN ICON TO REMOVE
                         paint.setColor(ContextCompat.getColor(getContext(), R.color.red));
                         icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.remove_icon);
 
@@ -139,9 +139,9 @@ public class FragmentoFavs extends Fragment {
                         float height = (float) itemView.getBottom() - (float) itemView.getTop();
                         float iconMargin = (height - icon.getHeight()) / 2;
                         float iconTop = itemView.getTop() + iconMargin;
-                        float iconLeft = itemView.getRight() - iconMargin - icon.getWidth();
+                        float iconLeft = itemView.getLeft() + iconMargin;
 
-                        c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom(), paint);
+                        c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom(), paint);
 
                         if (icon != null) {
                             c.drawBitmap(icon, iconLeft, iconTop, paint);

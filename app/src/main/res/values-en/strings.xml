@@ -7,7 +7,7 @@
     <string name="toolbar_favorites_subtitle">Enjoy your favorite photos</string>
 
     <string name="toolbar_categories">Categories</string>
-    <string name="swipe_remove">Swipe left to remove from favorites</string>
-    <string name="swipe_add">Swipe right to add to favorites</string>
+    <string name="swipe_remove">Swipe right to remove from favorites</string>
+    <string name="swipe_add">Swipe left to add to favorites</string>
     <string name="added_favs">Image added to favorites</string>
 </resources>

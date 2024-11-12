@@ -7,7 +7,7 @@
     <string name="toolbar_favorites_subtitle">Disfruta de tus fotos favoritas</string>
 
     <string name="toolbar_categories">Categorías</string>
-    <string name="swipe_remove">Desliza a la izquierda para eliminar de favoritos</string>
-    <string name="swipe_add">Desliza a la derecha para añadir a favoritos</string>
+    <string name="swipe_remove">Desliza a la derecha para eliminar de favoritos</string>
+    <string name="swipe_add">Desliza a la izquierda para añadir a favoritos</string>
     <string name="added_favs">Imagen añadida a favoritos</string>
 </resources>

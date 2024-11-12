@@ -6,7 +6,16 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp">
 
-    <!-- Texto del autor, arriba de la imagen -->
+    <ImageButton
+        android:id="@+id/infoIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/btn_star"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="@id/imageViewThumbnail"
+        app:layout_constraintEnd_toEndOf="@id/imageViewThumbnail"
+        />
+
     <TextView
         android:id="@+id/textViewAuthor"
         android:layout_width="0dp"
@@ -19,7 +28,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Imagen principal -->
     <ImageView
         android:id="@+id/imageViewThumbnail"
         android:layout_width="0dp"
@@ -29,12 +37,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Texto de superposición indicando que está en favoritos -->
     <TextView
         android:id="@+id/favoriteOverlayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Añadido a Favoritos"
+        android:text="@string/added_favs"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"

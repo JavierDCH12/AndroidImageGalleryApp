@@ -71,7 +71,8 @@ public class FragmentoGallery extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Snackbar.make(binding.getRoot(), getString(R.string.swipe_add), Snackbar.LENGTH_LONG).show();
+        //Swipe warning
+        Snackbar.make(binding.getRoot(), getString(R.string.swipe_add), Snackbar.LENGTH_SHORT).show();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         binding.recycGallery.setLayoutManager(gridLayoutManager);
@@ -96,7 +97,7 @@ public class FragmentoGallery extends Fragment {
 
         fetchImages();
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -106,7 +107,7 @@ public class FragmentoGallery extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
 
-                if (direction == ItemTouchHelper.RIGHT) {
+                if (direction == ItemTouchHelper.LEFT) {
                     Image imageSwiped = images.get(position);
                     FavoritesManager.getInstance().addFavorites(imageSwiped);
                     Toast.makeText(getContext(), getString(R.string.added_favs), Toast.LENGTH_LONG).show();
@@ -123,7 +124,7 @@ public class FragmentoGallery extends Fragment {
                     Paint paint = new Paint();
                     Bitmap icon;
 
-                    if (dX > 0) { // SWIPE RIGHT: GREEN COLOR, ADD FAVORITES
+                    if (dX < 0) { // SWIPE LEFT: GREEN COLOR, ADD FAVORITES
                         paint.setColor(ContextCompat.getColor(getContext(), R.color.green));
                         icon = BitmapFactory.decodeResource(recyclerView.getResources(), R.drawable.add_icon);
 
@@ -131,12 +132,12 @@ public class FragmentoGallery extends Fragment {
                         float height = (float) itemView.getBottom() - (float) itemView.getTop();
                         float iconMargin = (height - icon.getHeight()) / 2;
                         float iconTop = itemView.getTop() + iconMargin;
-                        float iconLeft = itemView.getLeft() + iconMargin;
+                        float iconRight = itemView.getRight() - iconMargin - icon.getWidth();
 
-                        c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom(), paint);
+                        c.drawRect((float) itemView.getRight(), (float) itemView.getTop(), dX, (float) itemView.getBottom(), paint);
 
                         if (icon != null) {
-                            c.drawBitmap(icon, iconLeft, iconTop, paint);
+                            c.drawBitmap(icon, iconRight, iconTop, paint);
                         }
                     }
                 }

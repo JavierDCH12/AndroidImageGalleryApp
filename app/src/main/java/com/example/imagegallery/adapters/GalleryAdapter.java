@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.imagegallery.FavoritesManager;
+import com.example.imagegallery.R;
 import com.example.imagegallery.databinding.ItemGalleryBinding;
 import com.example.imagegallery.model.Image;
 
@@ -37,6 +38,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
         Image image = images.get(position);
 
         holder.binding.textViewAuthor.setText(image.getUser().getName());
+        holder.binding.infoIcon.setImageResource(R.drawable.info_icon);
 
         Glide.with(holder.itemView.getContext())
                 .load(image.getUrls().getRegular())

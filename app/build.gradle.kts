@@ -12,10 +12,16 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "UNSPLASH_ACCESS_KEY", "\"${project.findProperty("UNSPLASH_ACCESS_KEY") ?: ""}\"")
+        buildConfigField("String",
+            "UNSPLASH_ACCESS_KEY",
+            "\"${project.findProperty("UNSPLASH_ACCESS_KEY") ?: ""}\"")
+
+        buildConfigField("String",
+            "BASE_URL",
+            "\"${project.findProperty("BASE_URL") ?: ""}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildFeatures.buildConfig = true
+
     }
 
     buildTypes {
@@ -34,6 +40,7 @@ android {
 
     buildFeatures{
         viewBinding=true
+        buildConfig = true
     }
 }
 

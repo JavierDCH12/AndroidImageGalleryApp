@@ -61,4 +61,15 @@
         app:layout_constraintStart_toEndOf="@+id/userDetail"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/downloadButton"
+        android:layout_width="65dp"
+        android:layout_height="63dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/download_image"
+        android:src="@drawable/download_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

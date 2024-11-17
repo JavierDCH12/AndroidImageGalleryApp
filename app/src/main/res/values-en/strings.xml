@@ -10,4 +10,10 @@
     <string name="swipe_remove">Swipe right to remove from favorites</string>
     <string name="swipe_add">Swipe left to add to favorites</string>
     <string name="added_favs">Image added to favorites</string>
+    <string name="img_donwload_start">Donwload started</string>
+
+
+    <string name="img_download_error">Error in downloading</string>
+    <string name="img_permision_denied">Permission denied. Image download will not continue.</string>
+
 </resources>

@@ -33,10 +33,11 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="73dp"
         android:background="@color/bottom_bar_background"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu"
+
         />
 
 </LinearLayout>

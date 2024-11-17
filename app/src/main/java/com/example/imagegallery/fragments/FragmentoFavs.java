@@ -72,6 +72,7 @@ public class FragmentoFavs extends Fragment {
                     galleryAdapter.notifyDataSetChanged();
                     binding.textViewEmptyFavorites.setVisibility(View.GONE);
                     binding.recycFavs.setVisibility(View.VISIBLE);
+
                 } else {
                     binding.textViewEmptyFavorites.setVisibility(View.VISIBLE);
                     binding.recycFavs.setVisibility(View.GONE);

@@ -44,7 +44,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
 
         //IMAGE ATRIBUTES SHOWN BY ITEM
         holder.binding.textViewAuthor.setText(image.getUser().getName());
-        holder.binding.infoIcon.setImageResource(R.drawable.info_icon);
+        //holder.binding.infoIcon.setImageResource(R.drawable.info_icon);
         Glide.with(holder.itemView.getContext())
                 .load(image.getUrls().getRegular())
                 .into(holder.binding.imageViewThumbnail);
@@ -57,6 +57,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
             holder.binding.favoriteOverlayText.setVisibility(View.GONE);
         }
 
+        holder.binding.infoIcon.setVisibility(View.VISIBLE);
+
+
         //INFO CLICK
         holder.binding.infoIcon.setOnClickListener(new View.OnClickListener() {
 
@@ -64,8 +67,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
             public void onClick(View view) {
                 imageViewModel.selectImage(image);
                 NavController  navController = Navigation.findNavController(view);
-                navController.navigate(R.id.action_fragmentoGallery_to_fragmentoDetail);
 
+                //CONTROL FROM WHICH FRAGMENT
+                if (isGallery) {
+                    navController.navigate(R.id.action_fragmentoGallery_to_fragmentoDetail);
+                } else {
+                    navController.navigate(R.id.action_fragmentoFavs_to_fragmentoDetail);
+                }
 
 
 

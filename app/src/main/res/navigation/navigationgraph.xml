@@ -17,7 +17,11 @@
         tools:layout="@layout/fragment_fragmento_favs" >
         <action
             android:id="@+id/action_fragmentoFavs_to_fragmentoDetail"
-            app:destination="@id/fragmentoDetail" />
+            app:destination="@id/fragmentoDetail"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/fragmentoCategories"
@@ -31,7 +35,11 @@
         tools:layout="@layout/fragment_fragmento_gallery" >
         <action
             android:id="@+id/action_fragmentoGallery_to_fragmentoDetail"
-            app:destination="@id/fragmentoDetail" />
+            app:destination="@id/fragmentoDetail"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/fragmentoDetail"

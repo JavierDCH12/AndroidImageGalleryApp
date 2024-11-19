@@ -1,43 +1,30 @@
-# Changelog
+# CHANGELOG
 
-## [1.0.0] - 2024-11-19
+## v1.0.0 (2024-11-19)
 ### Added
-- **Land Layouts:** Added support for landscape layouts. ([a13e018](https://github.com/your-repo/commit/a13e018))
+- Added layouts for landscape orientation.
+- Implemented download manager for saving images locally.
+- Added animations for transitions in graphs.
+- Fixed item layout and improved navigation flow.
 
-## [1.0.0] - 2024-11-17
+## v0.9.0 (2024-11-17)
 ### Added
-- **Download Manager:** Implemented image download functionality using Download Manager. ([578fa66](https://github.com/your-repo/commit/578fa66))
-- **Animations:** Added smooth animations to the app's navigation and UI elements. ([f3a7b44](https://github.com/your-repo/commit/f3a7b44))
+- Integrated a detail fragment to display image details.
+- Fixed issues in the adapter and gallery.
 
-### Fixed
-- **Item Gallery:** Corrected item gallery layout and navigation flow. ([b56aaa9](https://github.com/your-repo/commit/b56aaa9))
-
-## [1.0.0] - 2024-11-12
+## v0.8.0 (2024-11-12)
 ### Added
-- **Detail Fragment:** Created a detailed fragment for image information. ([e43b355](https://github.com/your-repo/commit/e43b355))
+- Implemented ViewModel for state management.
+- Improved the general style of the application.
+- Added vertical scrolling for API calls and new image loading.
 
-### Fixed
-- **Gallery Adapter:** Fixed issues in the adapter and general gallery functionality. ([c7f178d](https://github.com/your-repo/commit/c7f178d))
-
-### Changed
-- **ViewModel Integration:** Added ViewModel for state management. ([10381af](https://github.com/your-repo/commit/10381af))
-
-## [1.0.0] - 2024-11-10
+## v0.7.0 (2024-11-10)
 ### Added
-- **Vertical Scroll:** Enabled vertical scrolling for API image loading. ([5f7695c](https://github.com/your-repo/commit/5f7695c))
-- **Swipe Colors:** Improved swipe functionality with colored indicators and icons. ([5e94529](https://github.com/your-repo/commit/5e94529))
-- **Colored Indicators:** Added swipe colors and icons for feedback. ([4372414](https://github.com/your-repo/commit/4372414))
+- Introduced swipe gestures with distinct colors and icons.
+- Fixed image opacity in the gallery when favorited.
+- Added "add to favorites" and "remove from favorites" functionalities.
 
-### Fixed
-- **Favorite Images Opacity:** Fixed the opacity bug in favorite images display. ([92e1c8a](https://github.com/your-repo/commit/92e1c8a))
-
-### Changed
-- **General Style Fixes:** Updated styles for a more cohesive UI. ([5946181](https://github.com/your-repo/commit/5946181))
-
-## [1.0.0] - 2024-11-09
+## v0.6.0 (2024-11-09)
 ### Added
-- **Favorites Manager:** Added a manager to handle favorites logic. ([fda5c4c](https://github.com/your-repo/commit/fda5c4c))
-
-## [1.0.0] - 2024-11-09
-### Added
-- **Toolbar:** Implemented a toolbar with navigation options. ([beae066](https://github.com/your-repo/commit/beae066))
+- Created FavoritesManager for handling favorite images.
+- Integrated a toolbar for better navigation and functionality.

@@ -37,3 +37,8 @@ The project has reached a stable version (v1.0.0) and is currently paused for fu
 1. Clone the repository:
    ```bash
    git clone <repository_url>
+
+### CONTACT:
+## Name: Javier Delgado
+## GitHub: GitHub Profile
+## Email: javierdch12dev@gmail.com
